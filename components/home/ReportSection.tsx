@@ -47,7 +47,7 @@ export function ReportSection() {
                 <Button href={LINKS.reportVendor} variant="dark" size="lg" arrow>
                   Report a Vendor
                 </Button>
-                <p className="text-xs text-stone-500">Every report is reviewed by our team.</p>
+                <p className="text-xs text-stone-500">Takes about two minutes.</p>
               </div>
             </div>
           </div>

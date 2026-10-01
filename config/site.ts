@@ -12,21 +12,22 @@ export const SITE_DESCRIPTION =
 
 /**
  * Where people are sent to submit or report a vendor.
- * TODO: once /submit and /report pages exist, change these to "/submit" and "/report".
+ * Reports use the on-site form at /report (see lib/reports/).
+ * TODO: once a /submit page exists, change submitVendor to "/submit".
  */
 export const CONTACT_EMAIL = "hello@example.com";
 export const LINKS = {
-  exploreCategories: "#categories",
+  exploreCategories: "/#categories",
   submitVendor: `mailto:${CONTACT_EMAIL}?subject=Vendor%20submission`,
-  reportVendor: `mailto:${CONTACT_EMAIL}?subject=Vendor%20report`,
+  reportVendor: "/report",
 } as const;
 
 /** Header navigation. Add new pages here as they're built (e.g. Search, Rankings). */
 export const NAV_LINKS = [
-  { label: "Categories", href: "#categories" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Trust", href: "#trust" },
-  { label: "For vendors", href: "#for-vendors" },
+  { label: "Categories", href: "/#categories" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Trust", href: "/#trust" },
+  { label: "For vendors", href: "/#for-vendors" },
 ] as const;
 
 /**

@@ -93,6 +93,23 @@ export const FlagIcon = (p: IconProps) => (
     <path d="M5 21V4M5 4h11l-2 4 2 4H5" />
   </Svg>
 );
+export const ChevronDownIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="m6 9 6 6 6-6" />
+  </Svg>
+);
+export const ClockIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M12 7.5V12l3 2" />
+  </Svg>
+);
+export const AlertIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 4 2.8 19.5h18.4L12 4Z" />
+    <path d="M12 10v4M12 17h.01" />
+  </Svg>
+);
 export const MenuIcon = (p: IconProps) => (
   <Svg {...p}>
     <path d="M4 8h16M4 16h16" />

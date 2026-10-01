@@ -73,11 +73,4 @@ export type VendorSubmission = {
   notes?: string;
 };
 
-export type VendorReportReason = "misleading-information" | "poor-service" | "suspicious-activity" | "other";
-
-export type VendorReport = {
-  vendorName: string;
-  reason: VendorReportReason;
-  details: string;
-  contactEmail?: string;
-};
+// Vendor reports live in lib/reports/schema.ts (VendorReport, ReportReason).

@@ -7,7 +7,7 @@ export function Footer() {
   const columns = [
     { title: "Platform", links: NAV_LINKS.map((l) => ({ label: l.label, href: l.href })) },
     // TODO: point these at /categories/<slug> once category pages exist.
-    { title: "Categories", links: categories.map((c) => ({ label: c.name, href: "#categories" })) },
+    { title: "Categories", links: categories.map((c) => ({ label: c.name, href: "/#categories" })) },
     {
       title: "Vendors",
       links: [
