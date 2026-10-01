@@ -1,11 +1,13 @@
-# Vendor Rankings
+# RankWell — Vendor & Supplier Discovery
 
-A one-page website that ranks vendors in **one category**: a hero ("View the
-current vendor rankings" + last-updated date) followed by an interactive
-rankings section (sort by rank / rating / reviews, click a vendor to expand its
-details and rating breakdown). Built with
-Next.js (App Router), TypeScript and Tailwind CSS. There is no database, login
-or user input — **you set all the content in one file**.
+A premium homepage for a free vendor and supplier discovery platform: find
+reviewed and verified vendors across multiple categories, without paying for
+access.
+
+Built with **Next.js (App Router)**, **TypeScript** and **Tailwind CSS v4**.
+This first version is the **homepage only**. Category pages, vendor profiles,
+rankings, reviews, search, and the submit/report forms come later; the code is
+laid out so each slots in without reworking the homepage (see section 5).
 
 ---
 
@@ -14,121 +16,126 @@ or user input — **you set all the content in one file**.
 You need **Node.js 20.9 or newer** (check with `node -v`).
 
 ```bash
-# 1. Install dependencies (first time only)
-npm install
-
-# 2. Start the development server
-npm run dev
+npm install      # first time only
+npm run dev      # start the dev server
 ```
 
-Open **http://localhost:3000** in your browser. While `npm run dev` is running,
-any file you save reloads the page automatically.
-
-Other commands:
+Open **http://localhost:3000**. Saving any file reloads the page.
 
 ```bash
-npm run build      # build an optimised production version
-npm run start      # serve the production build (run `npm run build` first)
-npm run typecheck  # check the code / data file for mistakes
+npm run build      # production build
+npm run start      # serve the production build
+npm run typecheck  # check for type errors
 ```
+
+The fonts (Instrument Serif + Geist) are downloaded from Google Fonts during
+the build, so the first build needs an internet connection.
 
 ---
 
-## 2. Rename the subject (one place)
+## 2. Edit the content
 
-Open **`config/site.ts`** and change:
+| What                                   | Where                      |
+| -------------------------------------- | -------------------------- |
+| Brand name, contact email, nav links   | `config/site.ts`           |
+| Submit / Report button destinations    | `config/site.ts` → `LINKS` |
+| Hero stats (animated numbers)          | `config/site.ts` → `HERO_STATS` |
+| The 3 category cards                   | `data/categories.ts`       |
+| Section copy                           | `components/home/*.tsx`    |
+| Colours, fonts, animation timing       | `app/globals.css`          |
 
-```ts
-export const CATEGORY_NAME = "[SUBJECT]";   // e.g. "Coffee Bean Suppliers"
-export const SITE_NAME = "RankWell";        // name in the header and footer
-export const HERO_HEADLINE = "View the current vendor rankings";
-export const INTRO = `...`;                 // sentence under the rankings heading
-```
+### Categories
 
----
-
-## 3. Edit the vendors and the "last updated" date
-
-Everything lives in **`data/vendors.ts`**.
-
-At the top of the file:
-
-```ts
-export const LAST_UPDATED = "September 18";   // shown in the hero and above the rankings
-```
-
-Then each vendor is one `{ ... }` block:
+`data/categories.ts` holds the category cards. The three included are
+placeholders. Replace them, or add more (the grid wraps automatically):
 
 ```ts
 {
-  rank: 1,                                  // 1 = top of the list
-  name: "Northwind Supply Co.",
-  description: "1–2 sentences shown on the card.",
-  details: "Longer text shown when the card is opened.",       // optional
-  highlights: ["Same-day dispatch", "24/7 support"],            // optional
-  logo: "/logos/northwind.svg",             // optional
-  rating: 4.8,                              // 0–5, decimals OK
-  reviewCount: 12480,                       // no commas
-  ratingDistribution: { 5: 86, 4: 9, 3: 3, 2: 1, 1: 1 },       // % per star, adds to 100
-  website: "https://example.com",           // optional, adds a "Visit website" button
+  slug: "technology-software",          // future URL: /categories/technology-software
+  name: "Technology & Software",
+  description: "Vendors, platforms, agencies, and technology providers.",
+  examples: ["SaaS platforms", "Dev agencies", "IT services"],   // small tags
+  icon: "technology",   // technology | manufacturing | marketing | logistics | finance | generic
+  // live: true,        // set once the category page exists → card becomes a link
 },
 ```
 
-### Common tasks
+Cards are numbered 01, 02, 03… in list order. Until `live: true`, a card shows
+"Rankings coming soon".
 
-- **Re-order the ranking** – change the `rank` numbers. The order of blocks in
-  the file doesn't matter; only `rank` does. Keep each rank unique.
-- **Add a vendor** – copy a whole block (including the trailing `},`), paste it
-  inside the `[ ... ]` list, and change the values.
-- **Remove a vendor** – delete its whole block.
-- **Add a logo** – put the image in `public/logos/` (SVG, PNG, JPG or WEBP;
-  square works best) and set `logo: "/logos/your-file.png"`, or paste a full
-  `https://...` image URL. Leave `logo` out to show the vendor's initials.
-- **Update the date** – change `LAST_UPDATED` whenever you change the rankings.
+### Submit / Report buttons
 
-### Rules to keep in mind
+For now, "Submit a Vendor" and "Report a Vendor" open an email to
+`CONTACT_EMAIL`. **Change `CONTACT_EMAIL` in `config/site.ts` to your real
+address.** When you build proper forms, point `LINKS.submitVendor` and
+`LINKS.reportVendor` at `/submit` and `/report`.
 
-- Text goes inside double quotes: `"like this"`. If your text contains a double
-  quote, use single quotes instead: `'He said "hi"'`.
-- Every field line ends with a comma.
+### Hero stats
 
-If you make a mistake (duplicate rank, rating outside 0–5, distribution not
-adding up to 100), a warning appears
-in the terminal running `npm run dev`. If the page shows an error after editing,
-run `npm run typecheck` — it points to the exact line to fix.
+`HERO_STATS` in `config/site.ts` controls the three animated numbers under the
+hero. They currently show the number of categories, "100% free to browse" and
+"$0 access fees" (which counts down from $299). Swap in real platform stats
+once you have them, e.g. vendors listed or reviews collected.
+
+---
+
+## 3. Design system
+
+- **Palette**: near-black charcoal (`ink-*`), warm whites (`bone`, `sand-*`),
+  champagne gold accent (`gold-*`), muted emerald for the logo and "verified"
+  marks (`jade-*`). All defined in `app/globals.css`.
+- **Type**: *Instrument Serif* for headlines, *Geist* for body and UI.
+- **Animation**
+  - Hero: staggered fade/slide-in on load, slowly drifting light, a light
+    sweep, and a shimmer on the gold text.
+  - Sections fade/slide in as they enter the viewport (`<Reveal>`).
+  - Category cards lift on hover, with a soft light that follows the cursor.
+  - Buttons have a light sweep on hover.
+  - Stats count up (`<AnimatedNumber>`).
+  - Everything is disabled for visitors who have reduced motion turned on in
+    their system settings.
 
 ---
 
 ## 4. Project structure
 
 ```
-config/site.ts                         ← CATEGORY_NAME, site name, headline, intro
-data/vendors.ts                        ← ★ vendor data + LAST_UPDATED (the file you edit)
-public/logos/                          ← vendor logo images
+app/
+  layout.tsx                 ← fonts, metadata, header + footer
+  page.tsx                   ← homepage: lists the sections in order
+  globals.css                ← design tokens, keyframes, reveal styles
 
-app/page.tsx                           ← the homepage (hero + rankings + footer)
-app/layout.tsx                         ← page title / font
-app/globals.css                        ← colours and fonts
+config/site.ts               ← brand, links, nav, hero stats
+data/categories.ts           ← ★ category cards (edit me)
 
-components/home/Hero.tsx               ← top section with headline + last updated
-components/home/RankingsSection.tsx    ← rankings heading + sort buttons + list
-components/home/Footer.tsx
-components/vendors/VendorCard.tsx      ← one vendor (click to expand)
-components/vendors/RatingBreakdown.tsx ← 5-star → 1-star bars
-components/vendors/VendorLogo.tsx      ← logo or initials
-components/StarRating.tsx              ← star boxes (partial fills)
+lib/types.ts                 ← data model: Category (used now) plus Vendor,
+                               Review, VerificationStatus, VendorSubmission,
+                               VendorReport (ready for later)
+lib/format.ts                ← number formatting, rating labels
 
-lib/types.ts                           ← the Vendor type (add new fields here first)
-lib/vendors.ts                         ← sorts vendors by rank
-lib/format.ts                          ← number formatting, rating labels
+components/
+  layout/   Header (sticky, mobile menu), Footer, Logo
+  home/     Hero, FeaturedCategories, CategoryCard, HowItWorks,
+            TrustSection, ReportSection, SubmitSection, FinalCta
+  ui/       Button, Container, SectionHeader, Reveal, AnimatedNumber, icons
+  reviews/  StarRating, RatingBreakdown (for vendor profiles later)
 ```
 
-## 5. Extending later
+---
 
-- **New vendor fields** (price range, location): add the field to
-  `lib/types.ts`, fill it in `data/vendors.ts`, and show it in
-  `components/vendors/VendorCard.tsx`.
-- **More homepage sections** (FAQ, methodology): add a component in
-  `components/home/` and drop it into `app/page.tsx`.
-- **Colours / fonts**: edit the values at the top of `app/globals.css`.
-- **More pages**: create `app/<name>/page.tsx`.
+## 5. Building the next features
+
+The homepage is built to grow into the full platform:
+
+| Feature              | How to add it |
+| -------------------- | ------------- |
+| **Category pages**   | Create `app/categories/[slug]/page.tsx` that reads `data/categories.ts`, then set `live: true` on each category. |
+| **Vendors / rankings** | Add `data/vendors.ts` using the `Vendor` type in `lib/types.ts` (it already has `category`, `rank`, `verification`, `rating`, `reviewCount`, `ratingDistribution`). |
+| **Vendor profiles**  | `app/vendors/[slug]/page.tsx`, using `StarRating` and `RatingBreakdown` from `components/reviews/`. |
+| **Reviews**          | Use the `Review` type; render with `StarRating`. |
+| **Verification**     | `Vendor.verification` is `"unverified" \| "reviewed" \| "verified"`; reuse the jade "Verified" badge style from `TrustSection`. |
+| **Submit / Report**  | `app/submit/page.tsx` and `app/report/page.tsx` using the `VendorSubmission` / `VendorReport` types, then update `LINKS` in `config/site.ts`. |
+| **Search & filtering** | Add `app/search/page.tsx` and a search input in `Header.tsx`; add the link to `NAV_LINKS`. |
+| **New homepage sections** | Add a component in `components/home/` using `SectionHeader` + `Reveal`, and place it in `app/page.tsx`. |
+
+Search the code for `TODO` to find the marked extension points.
