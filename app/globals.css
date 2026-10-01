@@ -1,13 +1,19 @@
 @import "tailwindcss";
 
-/* Colours and fonts. Change them here to restyle the whole page. */
+/* Colours and fonts. Change them here to restyle the whole site. */
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 
-  --color-ink: #1a1a1a;
-  --color-muted: #6b6b6b;
-  --color-line: #e4e4e4;
+  --color-ink: #191919;
+  --color-muted: #646462;
+  --color-line: #e3e3de;
+  --color-surface: #f4f4f0;
+
+  /* Brand green + the dark green used behind the hero */
+  --color-brand: #00b67a;
+  --color-brand-hover: #00a06b;
+  --color-forest: #0d2a1f;
+  --color-forest-light: #1b4434;
 
   /* Star colours by rating level */
   --color-star-1: #ff3722;
@@ -15,7 +21,11 @@
   --color-star-3: #ffce00;
   --color-star-4: #73cf11;
   --color-star-5: #00b67a;
-  --color-star-empty: #dcdcdc;
+  --color-star-empty: #dcdcd6;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
