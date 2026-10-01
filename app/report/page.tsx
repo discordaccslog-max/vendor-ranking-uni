@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { HeroBackground } from "@/components/home/Hero";
-import { ReportFlow } from "@/components/report/ReportFlow";
+import { ReportForm } from "@/components/report/ReportForm";
 import { Container } from "@/components/ui/Container";
 import { AlertIcon, ClockIcon, ShieldCheckIcon } from "@/components/ui/icons";
 import { SITE_NAME } from "@/config/site";
@@ -56,7 +56,7 @@ export default async function ReportPage({ searchParams }: Props) {
               aria-hidden="true"
               className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-gold-400 to-transparent"
             />
-            <ReportFlow defaultVendor={defaultVendor} />
+            <ReportForm defaultVendor={defaultVendor} />
           </div>
 
           <aside className="space-y-4 lg:pt-10">

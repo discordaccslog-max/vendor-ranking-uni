@@ -5,7 +5,7 @@ reviewed and verified vendors across multiple categories, without paying for
 access.
 
 Built with **Next.js (App Router)**, **TypeScript** and **Tailwind CSS v4**.
-This version has the **homepage** and a working **vendor report form**. Category pages, vendor profiles,
+This version has the **homepage** and a **vendor report form** (front-end only for now). Category pages, vendor profiles,
 rankings, reviews, search, and the vendor submission form come later; the code is
 laid out so each slots in without reworking the homepage (see section 5).
 
@@ -39,8 +39,7 @@ the build, so the first build needs an internet connection.
 | -------------------------------------- | -------------------------- |
 | Brand name, contact email, nav links   | `config/site.ts`           |
 | Button destinations (submit, report)   | `config/site.ts` → `LINKS` |
-| Report issue types & validation        | `lib/reports/schema.ts`   |
-| Where reports are sent                 | `.env.local` → `REPORT_WEBHOOK_URL` (see section 3) |
+| Report issue types                     | `lib/reports/schema.ts`   |
 | Hero stats (animated numbers)          | `config/site.ts` → `HERO_STATS` |
 | The 3 category cards                   | `data/categories.ts`       |
 | Section copy                           | `components/home/*.tsx`    |
@@ -68,8 +67,7 @@ Cards are numbered 01, 02, 03… in list order. Until `live: true`, a card shows
 ### Submit button
 
 For now, "Submit a Vendor" opens an email to `CONTACT_EMAIL`. **Change
-`CONTACT_EMAIL` in `config/site.ts` to your real address.** It's also shown as
-a fallback if a report can't be delivered. When you build a submission form,
+`CONTACT_EMAIL` in `config/site.ts` to your real address.** When you build a submission form,
 point `LINKS.submitVendor` at `/submit`.
 
 ### Hero stats
@@ -83,49 +81,14 @@ once you have them, e.g. vendors listed or reviews collected.
 
 ## 3. Vendor reports (`/report`)
 
-Every "Report a Vendor" button opens the report form at **`/report`**. Visitors
-enter the vendor's name, website (optional), category (optional), the type of
-issue, a description, and an optional email for follow-up. They then get a
-confirmation screen with a reference number like `RPT-7K2M9Q`.
+Every "Report a Vendor" button opens the report form at **`/report`**. The form
+is **front-end only**: submitting it shows a "Thank you for your submission"
+message, and nothing is sent or saved.
 
-Links can pre-fill the vendor name: `/report?vendor=Acme%20Ltd`.
-
-### Where reports go
-
-Each report is sent to **every destination that's available**:
-
-| Destination | When it's used | How to read reports |
-| ----------- | -------------- | ------------------- |
-| **Local file** `.data/reports.jsonl` | Always attempted. Works on your own computer or server. | Run `npm run reports` (or `npm run reports -- 5` for the latest 5). |
-| **Webhook** | When `REPORT_WEBHOOK_URL` is set. | Reports arrive as messages in your Discord or Slack channel, or as a JSON POST to your own URL. |
-
-> **Hosting on Vercel (or similar)?** Those hosts can't save files, so you
-> **must** set `REPORT_WEBHOOK_URL`, otherwise visitors will see "We couldn't
-> send your report" (with your contact email as a fallback).
-
-**Set up a Discord webhook (2 minutes):**
-1. In Discord: *Channel settings → Integrations → Webhooks → New Webhook → Copy Webhook URL*.
-2. Locally: copy `.env.example` to `.env.local` and paste the URL after `REPORT_WEBHOOK_URL=`. Restart `npm run dev`.
-3. On Vercel: *Project → Settings → Environment Variables* → add `REPORT_WEBHOOK_URL`, then redeploy.
-
-Slack incoming webhooks work the same way. Any other URL receives
-`{"type":"vendor_report","report":{...}}` (e.g. Zapier or Make, to forward to email
-or a spreadsheet).
-
-`.data/` is git-ignored because reports can contain people's email addresses.
-
-### Built-in protection
-- Validation on the server (required fields, lengths, valid website/email).
-- A hidden "honeypot" field that silently discards bot submissions.
-- A limit of 5 reports per visitor every 10 minutes.
-- Report text can't trigger @everyone/@here pings in Discord.
-- The form still works with JavaScript turned off.
-
-### Customising
-- Issue types and their descriptions: `REPORT_REASONS` in `lib/reports/schema.ts`.
-- Validation rules and limits: `lib/reports/schema.ts`.
-- Delivery (e.g. add email via a service like Resend): `lib/reports/store.ts`.
-- Form layout: `components/report/ReportForm.tsx`; page copy: `app/report/page.tsx`.
+- Issue types: `REPORT_REASONS` in `lib/reports/schema.ts`.
+- Form layout: `components/report/ReportForm.tsx`; thank-you message:
+  `components/report/ReportSuccess.tsx`; page copy: `app/report/page.tsx`.
+- Links can pre-fill the vendor name: `/report?vendor=Acme%20Ltd`.
 
 ---
 
@@ -153,8 +116,7 @@ or a spreadsheet).
 app/
   layout.tsx                 ← fonts, metadata, header + footer
   page.tsx                   ← homepage: lists the sections in order
-  report/page.tsx            ← /report page
-  report/actions.ts          ← server action that validates + delivers reports
+  report/page.tsx            ← /report page (form is front-end only)
   globals.css                ← design tokens, keyframes, reveal styles
 
 config/site.ts               ← brand, links, nav, hero stats
@@ -164,16 +126,14 @@ lib/types.ts                 ← data model: Category (used now) plus Vendor,
                                Review, VerificationStatus, VendorSubmission,
                                VendorReport (ready for later)
 lib/format.ts                ← number formatting, rating labels
-lib/reports/schema.ts        ← report fields, issue types, validation
-lib/reports/store.ts         ← report delivery (file + webhook)
-scripts/reports.mjs          ← `npm run reports` viewer
+lib/reports/schema.ts        ← report issue types
 
 components/
   layout/   Header (sticky, mobile menu), Footer, Logo
   home/     Hero, FeaturedCategories, CategoryCard, HowItWorks,
             TrustSection, ReportSection, SubmitSection, FinalCta
   ui/       Button, Container, SectionHeader, Reveal, AnimatedNumber, icons
-  report/   ReportFlow, ReportForm, ReportSuccess, form fields
+  report/   ReportForm, ReportSuccess, form fields
   reviews/  StarRating, RatingBreakdown (for vendor profiles later)
 ```
 
@@ -190,7 +150,7 @@ The homepage is built to grow into the full platform:
 | **Vendor profiles**  | `app/vendors/[slug]/page.tsx`, using `StarRating` and `RatingBreakdown` from `components/reviews/`. |
 | **Reviews**          | Use the `Review` type; render with `StarRating`. |
 | **Verification**     | `Vendor.verification` is `"unverified" \| "reviewed" \| "verified"`; reuse the jade "Verified" badge style from `TrustSection`. |
-| **Submit a vendor**  | Copy the `/report` pattern: `app/submit/page.tsx` + a server action using the `VendorSubmission` type, then set `LINKS.submitVendor` to `/submit`. |
+| **Submit a vendor**  | Copy the `/report` pattern into `app/submit/page.tsx`, then set `LINKS.submitVendor` to `/submit`. |
 | **Report from a profile** | Link to `/report?vendor=<name>` from vendor pages to pre-fill the form. |
 | **Search & filtering** | Add `app/search/page.tsx` and a search input in `Header.tsx`; add the link to `NAV_LINKS`. |
 | **New homepage sections** | Add a component in `components/home/` using `SectionHeader` + `Reveal`, and place it in `app/page.tsx`. |
