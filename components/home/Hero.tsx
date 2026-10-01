@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { CheckIcon } from "@/components/ui/icons";
+import { BadgeCheckIcon, CheckIcon } from "@/components/ui/icons";
 import { LINKS } from "@/config/site";
 
 const TRUST_POINTS = ["Free of charge", "Peer-reviewed vendors", "Multiple industries"];
@@ -11,26 +11,29 @@ const delay = (ms: number) => ({ animationDelay: `${ms}ms` });
 export function Hero() {
   return (
     <section className="relative">
+      {/* Side banner (large screens) */}
+      <p
+        style={delay(700)}
+        className="animate-rise absolute top-1/2 left-0 z-10 hidden -translate-y-1/2 flex-col items-center gap-4 rounded-r-2xl bg-mist-100 px-3.5 py-6 text-night-950 shadow-[0_20px_60px_-20px_rgb(0_0_0/0.6)] xl:flex"
+      >
+        <BadgeCheckIcon className="size-5 shrink-0" />
+        <span className="rotate-180 text-[12px] leading-[1.6] tracking-[0.16em] whitespace-nowrap uppercase [writing-mode:vertical-rl]">
+          <span className="block font-semibold">Leading Public Vendor Forum</span>
+          <span className="block text-night-700/70">With Verified Reviews</span>
+        </span>
+      </p>
+
       <Container className="relative flex min-h-[100svh] flex-col pt-32 pb-20 sm:pt-40">
         <div className="mx-auto flex max-w-5xl flex-1 flex-col items-center justify-center text-center">
-          {/* Highlight badge */}
+          {/* Highlight label — smaller screens (the side banner shows from 1280px wide) */}
           <p
             style={delay(50)}
-            className="animate-rise relative mb-9 inline-flex rounded-full bg-[linear-gradient(110deg,#a78bfa,#f0abfc_45%,#67e8f9)] p-px shadow-[0_0_40px_-6px_rgb(240_171_252/0.6)]"
+            className="animate-rise mb-8 inline-flex items-center gap-3 rounded-2xl bg-mist-100 py-2 pr-4 pl-3 text-left text-night-950 xl:hidden"
           >
-            <span className="relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-night-950/85 px-4 py-2 text-sm font-medium text-white backdrop-blur-md sm:px-5 sm:text-base">
-              <span
-                aria-hidden="true"
-                className="animate-shimmer pointer-events-none absolute inset-0 bg-[linear-gradient(100deg,transparent_35%,rgb(255_255_255/0.14)_50%,transparent_65%)] bg-[length:200%_100%]"
-              />
-              <span aria-hidden="true" className="relative flex gap-0.5 text-fuchsia-200">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <svg key={i} viewBox="0 0 24 24" className="size-3.5 fill-current sm:size-4">
-                    <path d="M12 2.5l2.9 6.26 6.85.74-5.1 4.63 1.42 6.75L12 17.5l-6.07 3.38 1.42-6.75L2.25 9.5l6.85-.74L12 2.5z" />
-                  </svg>
-                ))}
-              </span>
-              <span className="relative">Leading Public Vendor Forum With Verified Reviews</span>
+            <BadgeCheckIcon className="size-5 shrink-0" />
+            <span className="text-[11px] leading-snug tracking-[0.12em] uppercase sm:text-xs">
+              <span className="block font-semibold">Leading Public Vendor Forum</span>
+              <span className="block text-night-700/70">With Verified Reviews</span>
             </span>
           </p>
 

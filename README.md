@@ -43,7 +43,7 @@ needs an internet connection.
 | **Categories**                         | `data/categories.ts`               |
 | Contact email, button links, nav      | `config/site.ts`                   |
 | Mission pop-up text and timing         | `components/home/MissionPopup.tsx` |
-| Section copy (incl. the hero badge)    | `components/home/*.tsx`            |
+| Section copy (incl. the side banner)   | `components/home/*.tsx`            |
 | Report form issue types                | `lib/reports/schema.ts`            |
 | Colours and fonts                      | `app/globals.css`                  |
 | Background smoke colours / speed       | `components/effects/SmokeBackground.tsx` |
