@@ -22,7 +22,7 @@ export function VendorMonogram({ name }: { name: string }) {
 
 export function VerifiedBadge() {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-2 py-0.5 text-[11px] font-medium whitespace-nowrap text-emerald-300">
+    <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300/30 font-sans bg-emerald-400/10 px-2 py-0.5 text-[11px] font-medium whitespace-nowrap text-emerald-300">
       <BadgeCheckIcon className="size-3.5" /> Verified
     </span>
   );

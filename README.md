@@ -9,6 +9,8 @@ and **Tailwind CSS v4**.
   vendors" section, final call-to-action, and an "Our Mission" pop-up after 2
   seconds.
 - `/report`: the report-a-vendor form.
+- `/reviews/<vendor>`: a vendor's reviews page, opened from "See reviews" on
+  each vendor.
 
 The report form and the "Leave feedback" form are **front-end only**: they
 show a thank-you message, and nothing is sent or saved.
@@ -41,9 +43,10 @@ needs an internet connection.
 | -------------------------------------- | ---------------------------------- |
 | **Vendors** (ratings, reviews, reports) | `data/vendors.ts`                  |
 | **Categories**                         | `data/categories.ts`               |
+| **Reviews** (added by hand)            | `data/reviews.ts`                  |
 | Contact email, button links, nav      | `config/site.ts`                   |
 | Mission pop-up text and timing         | `components/home/MissionPopup.tsx` |
-| Section copy (incl. the side banner)   | `components/home/*.tsx`            |
+| Section copy (incl. the hero banner)   | `components/home/*.tsx`            |
 | Report form issue types                | `lib/reports/schema.ts`            |
 | Colours and fonts                      | `app/globals.css`                  |
 | Background smoke colours / speed       | `components/effects/SmokeBackground.tsx` |
@@ -77,6 +80,28 @@ Disposables).
 
 The reports figure is coloured automatically: green for 0, amber for 1–3,
 red for 4 or more.
+
+### Reviews
+
+Each vendor has a **See reviews** link under its Trustpilot rating, which
+opens `/reviews/<vendor slug>`. That page shows the vendor's most recent 25
+reviews from `data/reviews.ts`, newest first, under the heading "Displaying the
+most recent 25 reviews out of 3,051". The second number is the vendor's
+`trustpilotReviews`, and the first is how many you've added (up to 25). Add
+reviews like this:
+
+```ts
+{
+  vendor: "pureserve-packaging",   // the vendor's slug
+  author: "Jordan M.",
+  rating: 5,                       // 1–5
+  title: "Fast and reliable",      // optional
+  body: "Ordered 5,000 cups and they arrived in two days.",
+  date: "2026-09-18",              // YYYY-MM-DD
+},
+```
+
+Until a vendor has reviews, its page says none have been added yet.
 
 ### Categories
 
@@ -118,12 +143,15 @@ app/
   layout.tsx                 ← fonts, metadata, smoke background, header, footer
   page.tsx                   ← homepage: lists the sections in order
   report/page.tsx            ← /report page
+  reviews/[slug]/page.tsx    ← a vendor's reviews page
   globals.css                ← colours, fonts, animations
 
 config/site.ts               ← links, nav, hero stats, contact email
 data/categories.ts           ← ★ category tabs
 data/vendors.ts              ← ★ vendors (placeholders)
-lib/types.ts                 ← Category and Vendor types
+data/reviews.ts              ← ★ reviews (you add these)
+lib/reviews.ts               ← picks the most recent 25, date formatting
+lib/types.ts                 ← Category, Vendor and Review types
 lib/reports/schema.ts        ← report form issue types
 
 components/
@@ -132,7 +160,7 @@ components/
   home/     Hero, VendorsSection, ReportSection, SubmitSection, FinalCta, MissionPopup
   vendors/  VendorRow, VendorActions (View site / Feedback / Report),
             FeedbackModal, parts (monogram, verified badge, reports)
-  reviews/  TrustpilotRating (logo + star squares + score)
+  reviews/  TrustpilotRating (logo + star squares + score), ReviewCard
   report/   ReportForm, ReportSuccess, form fields
   ui/       Button, Container, SectionHeader, Modal, Reveal, icons
 ```

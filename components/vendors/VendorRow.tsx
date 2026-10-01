@@ -1,4 +1,6 @@
+import Link from "next/link";
 import type { Vendor } from "@/lib/types";
+import { ArrowRightIcon } from "@/components/ui/icons";
 import { TrustpilotRating } from "@/components/reviews/TrustpilotRating";
 import { VendorActions } from "@/components/vendors/VendorActions";
 import { ReportStat, VendorMonogram, VerifiedBadge } from "@/components/vendors/parts";
@@ -49,6 +51,13 @@ export function VendorRow({ vendor, rank }: { vendor: Vendor; rank: number }) {
           <div className="grid grid-cols-2 gap-3 rounded-2xl border border-white/10 bg-night-950/40 p-4 xl:contents">
             <div className="xl:border-l xl:border-white/10 xl:pl-6">
               <TrustpilotRating rating={vendor.trustpilotRating} reviews={vendor.trustpilotReviews} url={vendor.trustpilotUrl} />
+              <Link
+                href={`/reviews/${vendor.slug}`}
+                className="group/rev mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-violet-200 transition-colors hover:text-white"
+              >
+                See reviews
+                <ArrowRightIcon className="size-3.5 transition-transform duration-300 group-hover/rev:translate-x-0.5" />
+              </Link>
             </div>
             <div className="border-l border-white/10 pl-3 xl:pl-6">
               <ReportStat count={vendor.recentReports} />

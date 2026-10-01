@@ -38,3 +38,19 @@ export type Vendor = {
   /** Shows a small "Leading vendor" note on this vendor. Optional. */
   leading?: boolean;
 };
+
+/** A review shown on a vendor's reviews page (/reviews/<vendor slug>). */
+export type Review = {
+  /** Slug of the vendor this review is about (from data/vendors.ts). */
+  vendor: string;
+  /** Reviewer's name as you want it shown. */
+  author: string;
+  /** Star rating, 1–5. */
+  rating: number;
+  /** Optional headline for the review. */
+  title?: string;
+  /** The review text. */
+  body: string;
+  /** Date of the review, written as YYYY-MM-DD (e.g. "2026-09-18"). */
+  date: string;
+};

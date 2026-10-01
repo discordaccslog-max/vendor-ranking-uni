@@ -11,24 +11,12 @@ const delay = (ms: number) => ({ animationDelay: `${ms}ms` });
 export function Hero() {
   return (
     <section className="relative">
-      {/* Side banner (large screens) */}
-      <p
-        style={delay(700)}
-        className="animate-rise absolute top-1/2 left-0 z-10 hidden -translate-y-1/2 flex-col items-center gap-4 rounded-r-2xl bg-mist-100 px-3.5 py-6 text-night-950 shadow-[0_20px_60px_-20px_rgb(0_0_0/0.6)] xl:flex"
-      >
-        <BadgeCheckIcon className="size-5 shrink-0" />
-        <span className="rotate-180 text-[12px] leading-[1.6] tracking-[0.16em] whitespace-nowrap uppercase [writing-mode:vertical-rl]">
-          <span className="block font-semibold">Leading Public Vendor Forum</span>
-          <span className="block text-night-700/70">With Verified Reviews</span>
-        </span>
-      </p>
-
       <Container className="relative flex min-h-[100svh] flex-col pt-32 pb-20 sm:pt-40">
         <div className="mx-auto flex max-w-5xl flex-1 flex-col items-center justify-center text-center">
-          {/* Highlight label — smaller screens (the side banner shows from 1280px wide) */}
+          {/* Highlight label */}
           <p
             style={delay(50)}
-            className="animate-rise mb-8 inline-flex items-center gap-3 rounded-2xl bg-mist-100 py-2 pr-4 pl-3 text-left text-night-950 xl:hidden"
+            className="animate-rise mb-9 inline-flex items-center gap-3 rounded-2xl bg-mist-100 py-2.5 pr-5 pl-3.5 text-left text-night-950 shadow-[0_20px_50px_-20px_rgb(0_0_0/0.6)]"
           >
             <BadgeCheckIcon className="size-5 shrink-0" />
             <span className="text-[11px] leading-snug tracking-[0.12em] uppercase sm:text-xs">

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} ${instrument.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${geist.variable} ${instrument.variable}`}>
       <head>
         {/* Without JavaScript, show scroll-reveal content immediately. */}
         <noscript>
