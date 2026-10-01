@@ -23,7 +23,12 @@ export function VendorRow({ vendor, rank }: { vendor: Vendor; rank: number }) {
           <div className="flex items-center gap-4">
             <VendorMonogram name={vendor.name} />
             <div className="min-w-0">
-              <p className="text-xs text-mist-500 tabular-nums xl:hidden">#{rank}</p>
+              <p className="flex items-center gap-2 text-xs text-mist-500 tabular-nums">
+                <span className="xl:hidden">#{rank}</span>
+                {vendor.leading && (
+                  <span className="font-medium tracking-[0.16em] text-fuchsia-200 uppercase">Leading vendor</span>
+                )}
+              </p>
               <h3 className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-lg leading-snug font-medium text-mist-100">
                 {vendor.name} <VerifiedBadge />
               </h3>

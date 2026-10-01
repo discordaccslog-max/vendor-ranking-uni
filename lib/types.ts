@@ -35,14 +35,6 @@ export type Vendor = {
   recentReports: number;
   /** Vendor's website — shown as the "View site" button. */
   website: string;
-  /**
-   * Marks this vendor as the category's "Current Leading Vendor" and lists
-   * why. Give it to the first vendor in a category.
-   */
-  leading?: {
-    reasons: { factor: LeadingFactor; detail: string }[];
-  };
+  /** Shows a small "Leading vendor" note on this vendor. Optional. */
+  leading?: boolean;
 };
-
-/** What a leading vendor can be recognised for (see FACTORS in components/vendors/LeadingVendorCard.tsx). */
-export type LeadingFactor = "pricing" | "delivery" | "quality" | "support";

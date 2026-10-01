@@ -15,12 +15,9 @@
  *  • trustpilotUrl      (optional) Link to their Trustpilot page.
  *  • recentReports      Bad-feedback reports in the past 6 months.
  *  • website            Vendor's website (the "View site" button).
- *  • leading            (optional) Makes this the category's "Current Leading
- *                       Vendor", with the reasons it leads. Factors:
- *                       "pricing", "delivery", "quality", "support".
+ *  • leading            (optional) true shows a small "Leading vendor" note.
  *
- *  Vendors are ranked in the order listed here within their category, so put
- *  a leading vendor first.
+ *  Vendors are ranked in the order listed here within their category.
  */
 import type { Vendor } from "@/lib/types";
 
@@ -82,14 +79,7 @@ export const vendors: Vendor[] = [
     trustpilotReviews: 3051,
     recentReports: 1,
     website: "https://example.com",
-    leading: {
-      reasons: [
-        { factor: "pricing", detail: "Lowest bulk pricing in the category" },
-        { factor: "delivery", detail: "Most orders dispatched within 24 hours" },
-        { factor: "quality", detail: "Food-safe certified, consistent batches" },
-        { factor: "support", detail: "Dedicated account manager on every order" },
-      ],
-    },
+    leading: true,
   },
   {
     slug: "ecocup-co",

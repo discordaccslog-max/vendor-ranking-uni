@@ -5,7 +5,6 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CATEGORY_ICONS } from "@/components/ui/icons";
-import { LeadingVendorCard } from "@/components/vendors/LeadingVendorCard";
 import { VendorRow } from "@/components/vendors/VendorRow";
 import { categories } from "@/data/categories";
 import { vendors } from "@/data/vendors";
@@ -81,11 +80,7 @@ export function VendorsSection() {
           <ol key={active} className="mt-6 space-y-4">
             {shown.map((vendor, i) => (
               <li key={vendor.slug} className="animate-pop-in" style={{ animationDelay: `${i * 90}ms` }}>
-                {vendor.leading ? (
-                  <LeadingVendorCard vendor={vendor} />
-                ) : (
-                  <VendorRow vendor={vendor} rank={i + 1} />
-                )}
+                <VendorRow vendor={vendor} rank={i + 1} />
               </li>
             ))}
           </ol>

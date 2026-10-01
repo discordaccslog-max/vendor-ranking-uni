@@ -43,7 +43,7 @@ needs an internet connection.
 | **Categories**                         | `data/categories.ts`               |
 | Contact email, button links, nav      | `config/site.ts`                   |
 | Mission pop-up text and timing         | `components/home/MissionPopup.tsx` |
-| Section copy                           | `components/home/*.tsx`            |
+| Section copy (incl. the hero badge)    | `components/home/*.tsx`            |
 | Report form issue types                | `lib/reports/schema.ts`            |
 | Colours and fonts                      | `app/globals.css`                  |
 | Background smoke colours / speed       | `components/effects/SmokeBackground.tsx` |
@@ -71,23 +71,9 @@ numbers are placeholders.** Replace them with real data before launch:
 Vendors are ranked in the order they appear in the file within their
 category. All placeholder websites are `https://example.com`.
 
-**Current Leading Vendor.** Add `leading` to a category's first vendor to show
-it as a large featured card with a "Current Leading Vendor" badge and a "Why
-it's leading" panel (currently set on PureServe Packaging in Disposables):
-
-```ts
-leading: {
-  reasons: [
-    { factor: "pricing",  detail: "Lowest bulk pricing in the category" },
-    { factor: "delivery", detail: "Most orders dispatched within 24 hours" },
-    { factor: "quality",  detail: "Food-safe certified, consistent batches" },
-    { factor: "support",  detail: "Dedicated account manager on every order" },
-  ],
-},
-```
-
-Factors: `pricing` (Pricing), `delivery` (Delivery speed), `quality`
-(Quality), `support` (Support). Use any number of them.
+**Leading vendor note.** Add `leading: true` to a vendor to show a small
+"Leading vendor" note above its name (currently set on PureServe Packaging in
+Disposables).
 
 The reports figure is coloured automatically: green for 0, amber for 1–3,
 red for 4 or more.
@@ -137,15 +123,15 @@ app/
 config/site.ts               ← links, nav, hero stats, contact email
 data/categories.ts           ← ★ category tabs
 data/vendors.ts              ← ★ vendors (placeholders)
-lib/types.ts                 ← Category, Vendor and LeadingFactor types
+lib/types.ts                 ← Category and Vendor types
 lib/reports/schema.ts        ← report form issue types
 
 components/
   effects/  SmokeBackground
   layout/   Header, Footer
   home/     Hero, VendorsSection, ReportSection, SubmitSection, FinalCta, MissionPopup
-  vendors/  VendorRow, LeadingVendorCard, VendorActions (View site / Feedback /
-            Report), FeedbackModal, parts (monogram, verified badge, reports)
+  vendors/  VendorRow, VendorActions (View site / Feedback / Report),
+            FeedbackModal, parts (monogram, verified badge, reports)
   reviews/  TrustpilotRating (logo + star squares + score)
   report/   ReportForm, ReportSuccess, form fields
   ui/       Button, Container, SectionHeader, Modal, Reveal, icons

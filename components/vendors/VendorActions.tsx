@@ -9,12 +9,10 @@ import { ArrowUpRightIcon, FlagIcon, MessageIcon } from "@/components/ui/icons";
 export function VendorActions({
   name,
   website,
-  size = "md",
   className = "",
 }: {
   name: string;
   website: string;
-  size?: "md" | "lg";
   className?: string;
 }) {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
@@ -25,9 +23,7 @@ export function VendorActions({
         href={website}
         target="_blank"
         rel="noopener noreferrer"
-        className={`group/site relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(110deg,#a78bfa,#f0abfc_45%,#67e8f9)] font-semibold text-night-950 shadow-[0_10px_34px_-10px_rgb(192_132_252/0.8)] transition-all duration-500 ease-luxe hover:shadow-[0_14px_44px_-8px_rgb(192_132_252/1)] hover:brightness-110 ${
-          size === "lg" ? "h-13 px-8 text-[15px]" : "h-11 px-6 text-sm"
-        }`}
+        className={`group/site relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(110deg,#a78bfa,#f0abfc_45%,#67e8f9)] font-semibold text-night-950 shadow-[0_10px_34px_-10px_rgb(192_132_252/0.8)] transition-all duration-500 ease-luxe hover:shadow-[0_14px_44px_-8px_rgb(192_132_252/1)] hover:brightness-110 h-11 px-6 text-sm`}
       >
         <span
           aria-hidden="true"

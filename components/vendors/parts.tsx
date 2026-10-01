@@ -1,4 +1,4 @@
-/** Small pieces shared by VendorRow and LeadingVendorCard. */
+/** Small pieces used by VendorRow. */
 import { BadgeCheckIcon } from "@/components/ui/icons";
 
 export function initials(name: string) {
@@ -12,13 +12,9 @@ export function initials(name: string) {
 }
 
 /** Gradient tile with the vendor's initials (stand-in for a logo). */
-export function VendorMonogram({ name, size = "md" }: { name: string; size?: "md" | "lg" }) {
+export function VendorMonogram({ name }: { name: string }) {
   return (
-    <span
-      className={`grid shrink-0 place-items-center bg-[linear-gradient(135deg,rgb(167_139_250/0.4),rgb(240_171_252/0.22),rgb(103_232_249/0.3))] font-display text-white ring-1 ring-white/15 ${
-        size === "lg" ? "size-18 rounded-[20px] text-3xl" : "size-12 rounded-2xl text-lg"
-      }`}
-    >
+    <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[linear-gradient(135deg,rgb(167_139_250/0.4),rgb(240_171_252/0.22),rgb(103_232_249/0.3))] font-display text-lg text-white ring-1 ring-white/15">
       {initials(name)}
     </span>
   );
