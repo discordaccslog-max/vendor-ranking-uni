@@ -1,50 +1,23 @@
 @import "tailwindcss";
 
-/*
- * Design tokens. Change colours here to re-theme the whole site.
- * Usage in components: bg-brand-500, text-ink-900, etc.
- */
+/* Colours and fonts. Change them here to restyle the whole page. */
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
 
-  /* Trust green (primary brand) */
-  --color-brand-50: #ebfaf3;
-  --color-brand-100: #cff3e2;
-  --color-brand-200: #a0e6c6;
-  --color-brand-300: #62d3a3;
-  --color-brand-400: #22c288;
-  --color-brand-500: #00b67a;
-  --color-brand-600: #009966;
-  --color-brand-700: #057a54;
-  --color-brand-800: #0a5e43;
-  --color-brand-900: #0b4a36;
-  --color-brand-950: #052a1f;
+  --color-ink: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-line: #e4e4e4;
 
-  /* Neutrals (warm-leaning greys) */
-  --color-ink-50: #f8f8f6;
-  --color-ink-100: #f0f0ed;
-  --color-ink-200: #e3e3df;
-  --color-ink-300: #cfcfc9;
-  --color-ink-400: #a3a39c;
-  --color-ink-500: #75756f;
-  --color-ink-600: #57574f;
-  --color-ink-700: #3e3e38;
-  --color-ink-800: #26261f;
-  --color-ink-900: #171713;
-
-  /* Star colours by rating level (Trustpilot-style) */
+  /* Star colours by rating level */
   --color-star-1: #ff3722;
   --color-star-2: #ff8622;
   --color-star-3: #ffce00;
   --color-star-4: #73cf11;
   --color-star-5: #00b67a;
-  --color-star-empty: #dcdcd6;
-}
-
-html {
-  scroll-behavior: smooth;
+  --color-star-empty: #dcdcdc;
 }
 
 body {
-  @apply bg-white text-ink-900 antialiased;
+  @apply bg-white font-sans text-ink antialiased;
 }
