@@ -1,26 +1,20 @@
 import { Hero } from "@/components/home/Hero";
-import { FeaturedCategories } from "@/components/home/FeaturedCategories";
-import { HowItWorks } from "@/components/home/HowItWorks";
-import { TrustSection } from "@/components/home/TrustSection";
+import { VendorsSection } from "@/components/home/VendorsSection";
 import { ReportSection } from "@/components/home/ReportSection";
 import { SubmitSection } from "@/components/home/SubmitSection";
 import { FinalCta } from "@/components/home/FinalCta";
+import { MissionPopup } from "@/components/home/MissionPopup";
 
-/**
- * Homepage. Each section is its own component in components/home/ —
- * reorder, remove or add sections here.
- */
+/** Homepage. Each section is its own component in components/home/. */
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <FeaturedCategories />
-      <HowItWorks />
-      <TrustSection />
+      <VendorsSection />
       <ReportSection />
       <SubmitSection />
-      {/* TODO: add sections here later (e.g. search bar, top-rated vendors, testimonials). */}
       <FinalCta />
+      <MissionPopup />
     </>
   );
 }

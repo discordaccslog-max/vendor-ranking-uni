@@ -1,53 +1,58 @@
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { ShieldCheckIcon } from "@/components/ui/icons";
+import { FlagIcon } from "@/components/ui/icons";
 import { LINKS } from "@/config/site";
 
 const ISSUES = ["Misleading information", "Poor service", "Suspicious activity", "Another issue"];
 
+/** Accountability / "Report a vendor" — the most prominent call-out after the vendors. */
 export function ReportSection() {
   return (
-    <section id="report" className="bg-bone py-28 sm:py-32">
+    <section id="report" className="relative py-20 sm:py-28">
       <Container>
         <Reveal>
-          <div className="relative overflow-hidden rounded-[32px] border border-sand-200 bg-white/80 p-8 shadow-[0_30px_80px_-50px_rgb(10_10_11/0.3)] sm:p-12 lg:p-16">
-            {/* Subtle gold edge at the top */}
-            <span aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
+          {/* Glowing gradient border */}
+          <div className="relative rounded-[36px] bg-[linear-gradient(135deg,rgb(251_113_133/0.7),rgb(217_70_239/0.5)_40%,rgb(103_232_249/0.45))] p-px shadow-[0_40px_140px_-40px_rgb(217_70_239/0.55)]">
+            <div className="relative overflow-hidden rounded-[35px] bg-night-900/85 px-6 py-14 backdrop-blur-xl sm:px-12 sm:py-20 lg:px-20">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -top-32 left-1/2 h-72 w-[48rem] -translate-x-1/2 rounded-full bg-fuchsia-500/20 blur-3xl"
+              />
 
-            <div className="grid gap-10 lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-14">
-              <span className="grid size-16 place-items-center rounded-2xl bg-gold-100 text-gold-600">
-                <ShieldCheckIcon className="size-8" />
-              </span>
+              <div className="relative mx-auto max-w-3xl text-center">
+                <span className="relative mx-auto grid size-18 place-items-center">
+                  <span className="absolute inset-0 animate-ping rounded-full bg-rose-400/20 [animation-duration:2.4s]" />
+                  <span className="relative grid size-18 place-items-center rounded-full bg-[linear-gradient(135deg,#fb7185,#e879f9)] text-white shadow-[0_10px_40px_-8px_rgb(244_114_182/0.8)]">
+                    <FlagIcon className="size-8" />
+                  </span>
+                </span>
 
-              <div>
-                <p className="text-xs font-medium tracking-[0.22em] text-gold-600 uppercase">Accountability</p>
-                <h2 className="mt-4 font-display text-4xl leading-[1.05] tracking-[-0.01em] text-ink-950 sm:text-5xl">
-                  Help us keep the directory better.
+                <p className="mt-8 text-xs font-medium tracking-[0.28em] text-rose-300 uppercase">Accountability</p>
+                <h2 className="mt-5 font-display text-5xl leading-[1] tracking-[-0.02em] text-balance text-white sm:text-7xl">
+                  Help us keep the <em className="text-aurora italic">directory honest.</em>
                 </h2>
-                <p className="mt-5 max-w-2xl leading-relaxed text-stone-600">
+                <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-mist-300">
                   Had a negative experience with a vendor listed on our platform? Let us know. If you&apos;ve experienced
                   misleading information, poor service, suspicious activity, or another issue with a listed vendor,
-                  please report it to our team so we can review the situation.
+                  report it so we can review the situation.
                 </p>
-                <ul className="mt-6 flex flex-wrap gap-2">
+
+                <ul className="mt-9 flex flex-wrap justify-center gap-2">
                   {ISSUES.map((issue) => (
                     <li
                       key={issue}
-                      className="flex items-center gap-2 rounded-full border border-sand-200 bg-bone px-3.5 py-1.5 text-xs text-stone-600"
+                      className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-mist-300"
                     >
-                      <span className="size-1 rounded-full bg-gold-500" />
+                      <span className="size-1.5 rounded-full bg-rose-400" />
                       {issue}
                     </li>
                   ))}
                 </ul>
-              </div>
 
-              <div className="flex flex-col items-start gap-3 lg:items-center">
-                <Button href={LINKS.reportVendor} variant="dark" size="lg" arrow>
+                <Button href={LINKS.reportVendor} variant="aurora" size="lg" arrow className="mt-11">
                   Report a Vendor
                 </Button>
-                <p className="text-xs text-stone-500">Takes about two minutes.</p>
               </div>
             </div>
           </div>

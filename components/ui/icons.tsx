@@ -110,6 +110,18 @@ export const AlertIcon = (p: IconProps) => (
     <path d="M12 10v4M12 17h.01" />
   </Svg>
 );
+export const MessageIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 5.5h16v11H9l-5 4v-15Z" />
+    <path d="M8 9.5h8M8 12.5h5" />
+  </Svg>
+);
+export const SparkleIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3c.6 4.2 2.8 6.4 7 7-4.2.6-6.4 2.8-7 7-.6-4.2-2.8-6.4-7-7 4.2-.6 6.4-2.8 7-7Z" />
+    <path d="M19 16c.2 1.4.9 2.1 2 2.5-1.1.4-1.8 1.1-2 2.5-.2-1.4-.9-2.1-2-2.5 1.1-.4 1.8-1.1 2-2.5Z" />
+  </Svg>
+);
 export const MenuIcon = (p: IconProps) => (
   <Svg {...p}>
     <path d="M4 8h16M4 16h16" />
@@ -123,42 +135,27 @@ export const CloseIcon = (p: IconProps) => (
 
 // Category icons ------------------------------------------------------------
 
-const TechnologyIcon = (p: IconProps) => (
+const FashionIcon = (p: IconProps) => (
   <Svg {...p}>
-    <rect x="3" y="4.5" width="18" height="12" rx="2" />
-    <path d="M8 20h8M12 16.5V20M9.5 9l-2 1.5 2 1.5M14.5 9l2 1.5-2 1.5" />
+    <path d="M8.5 3.5 4 5.8 2.8 10l3.2 1.2V20.5h12V11.2l3.2-1.2L20 5.8l-4.5-2.3c-.6 1.6-2 2.5-3.5 2.5s-2.9-.9-3.5-2.5Z" />
   </Svg>
 );
-const ManufacturingIcon = (p: IconProps) => (
+const DisposablesIcon = (p: IconProps) => (
   <Svg {...p}>
-    <path d="M3 20.5V10l5 3V10l5 3V10l5 3V4.5h3v16H3Z" />
-    <path d="M7 17h2M11 17h2M15 17h2" />
+    <path d="M5.5 6.5h13M7 6.5l1.3 14h7.4l1.3-14M8.5 6.5 9 3.5h6l.5 3M7.6 11h8.8" />
   </Svg>
 );
-const MarketingIcon = (p: IconProps) => (
+const ElectronicsIcon = (p: IconProps) => (
   <Svg {...p}>
-    <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" />
-    <circle cx="12" cy="12" r="3" />
-  </Svg>
-);
-const LogisticsIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M3 6.5h11v10H3zM14 10h4l3 3v3.5h-7" />
-    <circle cx="7" cy="18" r="1.8" />
-    <circle cx="17" cy="18" r="1.8" />
-  </Svg>
-);
-const FinanceIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M3 9.5 12 4l9 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20.5h18" />
+    <rect x="6.5" y="6.5" width="11" height="11" rx="1.5" />
+    <rect x="9.5" y="9.5" width="5" height="5" rx="0.5" />
+    <path d="M9.5 3v3.5M14.5 3v3.5M9.5 17.5V21M14.5 17.5V21M3 9.5h3.5M3 14.5h3.5M17.5 9.5H21M17.5 14.5H21" />
   </Svg>
 );
 
 export const CATEGORY_ICONS: Record<CategoryIcon, (p: IconProps) => React.ReactElement> = {
-  technology: TechnologyIcon,
-  manufacturing: ManufacturingIcon,
-  marketing: MarketingIcon,
-  logistics: LogisticsIcon,
-  finance: FinanceIcon,
+  fashion: FashionIcon,
+  disposables: DisposablesIcon,
+  electronics: ElectronicsIcon,
   generic: GridIcon,
 };

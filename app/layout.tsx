@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
+import { SmokeBackground } from "@/components/effects/SmokeBackground";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SITE_DESCRIPTION, SITE_NAME } from "@/config/site";
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/config/site";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
@@ -15,7 +16,7 @@ const instrument = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: `${SITE_NAME} — Find Trusted Vendors & Suppliers, Free`,
+  title: SITE_TITLE,
   description: SITE_DESCRIPTION,
 };
 
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </noscript>
       </head>
       <body>
+        <SmokeBackground />
         <Header />
         <main>{children}</main>
         <Footer />
