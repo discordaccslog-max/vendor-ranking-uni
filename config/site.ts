@@ -28,21 +28,3 @@ export const NAV_LINKS = [
   { label: "Report a vendor", href: "/report" },
   { label: "For vendors", href: "/#for-vendors" },
 ] as const;
-
-/**
- * Animated numbers in the hero. Swap these for real platform statistics later.
- * `from` is where the count starts. Leave `value` out to use the live number
- * of categories (or set `source: "vendors"` for the live number of vendors).
- */
-export const HERO_STATS: {
-  value?: number;
-  source?: "categories" | "vendors";
-  from?: number;
-  prefix?: string;
-  suffix?: string;
-  label: string;
-}[] = [
-  { source: "vendors", label: "Verified vendors" },
-  { source: "categories", label: "Categories" },
-  { value: 0, from: 299, prefix: "$", label: "Cost to access" },
-];

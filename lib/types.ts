@@ -33,6 +33,16 @@ export type Vendor = {
   trustpilotUrl?: string;
   /** Bad-feedback reports received in the past 6 months. */
   recentReports: number;
-  /** Vendor's own website. Optional. */
-  website?: string;
+  /** Vendor's website — shown as the "View site" button. */
+  website: string;
+  /**
+   * Marks this vendor as the category's "Current Leading Vendor" and lists
+   * why. Give it to the first vendor in a category.
+   */
+  leading?: {
+    reasons: { factor: LeadingFactor; detail: string }[];
+  };
 };
+
+/** What a leading vendor can be recognised for (see FACTORS in components/vendors/LeadingVendorCard.tsx). */
+export type LeadingFactor = "pricing" | "delivery" | "quality" | "support";

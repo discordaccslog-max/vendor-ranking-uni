@@ -14,9 +14,13 @@
  *  • trustpilotReviews  Number of Trustpilot reviews.
  *  • trustpilotUrl      (optional) Link to their Trustpilot page.
  *  • recentReports      Bad-feedback reports in the past 6 months.
- *  • website            (optional) Vendor's website.
+ *  • website            Vendor's website (the "View site" button).
+ *  • leading            (optional) Makes this the category's "Current Leading
+ *                       Vendor", with the reasons it leads. Factors:
+ *                       "pricing", "delivery", "quality", "support".
  *
- *  Vendors appear in the order listed here within their category.
+ *  Vendors are ranked in the order listed here within their category, so put
+ *  a leading vendor first.
  */
 import type { Vendor } from "@/lib/types";
 
@@ -31,6 +35,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 4.8,
     trustpilotReviews: 2314,
     recentReports: 0,
+    website: "https://example.com",
   },
   {
     slug: "threadline-supply",
@@ -41,6 +46,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 4.5,
     trustpilotReviews: 1187,
     recentReports: 2,
+    website: "https://example.com",
   },
   {
     slug: "velvet-row",
@@ -51,6 +57,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 4.2,
     trustpilotReviews: 642,
     recentReports: 4,
+    website: "https://example.com",
   },
   {
     slug: "northloom",
@@ -61,6 +68,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 3.9,
     trustpilotReviews: 318,
     recentReports: 7,
+    website: "https://example.com",
   },
 
   // ---- Disposables --------------------------------------------------------
@@ -73,6 +81,15 @@ export const vendors: Vendor[] = [
     trustpilotRating: 4.7,
     trustpilotReviews: 3051,
     recentReports: 1,
+    website: "https://example.com",
+    leading: {
+      reasons: [
+        { factor: "pricing", detail: "Lowest bulk pricing in the category" },
+        { factor: "delivery", detail: "Most orders dispatched within 24 hours" },
+        { factor: "quality", detail: "Food-safe certified, consistent batches" },
+        { factor: "support", detail: "Dedicated account manager on every order" },
+      ],
+    },
   },
   {
     slug: "ecocup-co",
@@ -83,6 +100,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 4.6,
     trustpilotReviews: 1478,
     recentReports: 0,
+    website: "https://example.com",
   },
   {
     slug: "clearline",
@@ -93,6 +111,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 4.1,
     trustpilotReviews: 806,
     recentReports: 3,
+    website: "https://example.com",
   },
   {
     slug: "brightwrap",
@@ -103,6 +122,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 3.7,
     trustpilotReviews: 254,
     recentReports: 6,
+    website: "https://example.com",
   },
 
   // ---- Electronics --------------------------------------------------------
@@ -115,6 +135,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 4.9,
     trustpilotReviews: 5420,
     recentReports: 1,
+    website: "https://example.com",
   },
   {
     slug: "circuit-harbor",
@@ -125,6 +146,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 4.4,
     trustpilotReviews: 1932,
     recentReports: 2,
+    website: "https://example.com",
   },
   {
     slug: "pulse-gadgets",
@@ -135,6 +157,7 @@ export const vendors: Vendor[] = [
     trustpilotRating: 4.0,
     trustpilotReviews: 711,
     recentReports: 5,
+    website: "https://example.com",
   },
   {
     slug: "nexa-refurb",
@@ -145,5 +168,6 @@ export const vendors: Vendor[] = [
     trustpilotRating: 3.6,
     trustpilotReviews: 289,
     recentReports: 9,
+    website: "https://example.com",
   },
 ];

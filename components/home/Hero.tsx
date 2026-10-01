@@ -1,10 +1,7 @@
-import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { CheckIcon } from "@/components/ui/icons";
-import { HERO_STATS, LINKS } from "@/config/site";
-import { categories } from "@/data/categories";
-import { vendors } from "@/data/vendors";
+import { LINKS } from "@/config/site";
 
 const TRUST_POINTS = ["Free of charge", "Peer-reviewed vendors", "Multiple industries"];
 
@@ -14,7 +11,7 @@ const delay = (ms: number) => ({ animationDelay: `${ms}ms` });
 export function Hero() {
   return (
     <section className="relative">
-      <Container className="relative flex min-h-[100svh] flex-col pt-32 pb-10 sm:pt-40">
+      <Container className="relative flex min-h-[100svh] flex-col pt-32 pb-20 sm:pt-40">
         <div className="mx-auto flex max-w-5xl flex-1 flex-col items-center justify-center text-center">
           <h1
             style={delay(150)}
@@ -48,23 +45,6 @@ export function Hero() {
           </ul>
         </div>
 
-        {/* Stats — edit in config/site.ts */}
-        <dl style={delay(850)} className="animate-rise mx-auto mt-16 grid w-full max-w-4xl grid-cols-3 border-t border-white/10">
-          {HERO_STATS.map((stat, i) => {
-            const value =
-              stat.value ?? (stat.source === "vendors" ? vendors.length : categories.length);
-            return (
-              <div key={stat.label} className={`px-2 pt-7 text-center ${i > 0 ? "border-l border-white/10" : ""}`}>
-                <dd className="font-display text-4xl text-white sm:text-6xl">
-                  <AnimatedNumber value={value} from={stat.from} prefix={stat.prefix} suffix={stat.suffix} />
-                </dd>
-                <dt className="mt-2 text-[10px] font-medium tracking-[0.2em] text-mist-500 uppercase sm:text-xs">
-                  {stat.label}
-                </dt>
-              </div>
-            );
-          })}
-        </dl>
       </Container>
     </section>
   );

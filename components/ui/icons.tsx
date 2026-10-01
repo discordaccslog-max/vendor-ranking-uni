@@ -122,6 +122,33 @@ export const SparkleIcon = (p: IconProps) => (
     <path d="M19 16c.2 1.4.9 2.1 2 2.5-1.1.4-1.8 1.1-2 2.5-.2-1.4-.9-2.1-2-2.5 1.1-.4 1.8-1.1 2-2.5Z" />
   </Svg>
 );
+export const TagIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.7 6.7a1.4 1.4 0 0 1-2 0l-8.3-8.3Z" />
+    <circle cx="8" cy="8" r="1.4" />
+  </Svg>
+);
+export const TruckIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M2.5 6.5h11v10h-11zM13.5 10h4l3 3v3.5h-7" />
+    <circle cx="6.5" cy="18" r="1.8" />
+    <circle cx="17" cy="18" r="1.8" />
+  </Svg>
+);
+export const HeadsetIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4.5 14v-2a7.5 7.5 0 0 1 15 0v2" />
+    <rect x="3.5" y="13" width="4" height="6" rx="1.5" />
+    <rect x="16.5" y="13" width="4" height="6" rx="1.5" />
+    <path d="M18.5 19c0 1.5-2 2.5-5 2.5" />
+  </Svg>
+);
+export const TrophyIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M7.5 4h9v5a4.5 4.5 0 0 1-9 0V4Z" />
+    <path d="M7.5 6H4.5v1.5A3 3 0 0 0 7.7 10.5M16.5 6h3v1.5a3 3 0 0 1-3.2 3M12 13.5V17M8.5 20.5h7M9.5 17h5l.5 3.5H9l.5-3.5Z" />
+  </Svg>
+);
 export const MenuIcon = (p: IconProps) => (
   <Svg {...p}>
     <path d="M4 8h16M4 16h16" />

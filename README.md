@@ -41,7 +41,7 @@ needs an internet connection.
 | -------------------------------------- | ---------------------------------- |
 | **Vendors** (ratings, reviews, reports) | `data/vendors.ts`                  |
 | **Categories**                         | `data/categories.ts`               |
-| Contact email, button links, nav, hero stats | `config/site.ts`             |
+| Contact email, button links, nav      | `config/site.ts`                   |
 | Mission pop-up text and timing         | `components/home/MissionPopup.tsx` |
 | Section copy                           | `components/home/*.tsx`            |
 | Report form issue types                | `lib/reports/schema.ts`            |
@@ -64,9 +64,30 @@ numbers are placeholders.** Replace them with real data before launch:
   trustpilotReviews: 2314,
   trustpilotUrl: "https://www.trustpilot.com/review/…",  // optional, makes the rating a link
   recentReports: 0,                   // bad-feedback reports in the past 6 months
-  website: "https://…",               // optional
+  website: "https://…",               // the "View site" button
 },
 ```
+
+Vendors are ranked in the order they appear in the file within their
+category. All placeholder websites are `https://example.com`.
+
+**Current Leading Vendor.** Add `leading` to a category's first vendor to show
+it as a large featured card with a "Current Leading Vendor" badge and a "Why
+it's leading" panel (currently set on PureServe Packaging in Disposables):
+
+```ts
+leading: {
+  reasons: [
+    { factor: "pricing",  detail: "Lowest bulk pricing in the category" },
+    { factor: "delivery", detail: "Most orders dispatched within 24 hours" },
+    { factor: "quality",  detail: "Food-safe certified, consistent batches" },
+    { factor: "support",  detail: "Dedicated account manager on every order" },
+  ],
+},
+```
+
+Factors: `pricing` (Pricing), `delivery` (Delivery speed), `quality`
+(Quality), `support` (Support). Use any number of them.
 
 The reports figure is coloured automatically: green for 0, amber for 1–3,
 red for 4 or more.
@@ -93,13 +114,14 @@ give vendors that `category`. Icons available: `fashion`, `disposables`,
 - **Palette:** deep violet-black (`night-*`), light text (`mist-*`), and
   violet → pink → cyan accents. Defined in `app/globals.css`.
 - **Type:** *Instrument Serif* for headlines, *Geist* for everything else.
-- **Background:** a WebGL smoke animation behind the whole site
-  (`components/effects/SmokeBackground.tsx`). It swirls and glows along a
-  trail that follows the mouse or a finger. If WebGL isn't available it falls
-  back to a static gradient, and it shows a still frame for visitors who have
-  reduced motion turned on.
-- **Motion:** the hero fades in, sections reveal on scroll, cards lift on
-  hover with a cursor spotlight, and the stats count up. Pop-ups ease in.
+- **Background:** colourful smoke (violet, pink, cyan, blue) flowing behind
+  the whole site (`components/effects/SmokeBackground.tsx`). It's decorative
+  only and doesn't react to the mouse. Change `SPEED`, `BRIGHTNESS` or the
+  colours in `palette()` there. If WebGL isn't available it falls back to a
+  static gradient, and it shows a still frame for visitors who have reduced
+  motion turned on.
+- **Motion:** the hero fades in, sections reveal on scroll, and the vendor
+  list animates in when you switch category. Pop-ups ease in.
 
 ---
 
@@ -115,15 +137,16 @@ app/
 config/site.ts               ← links, nav, hero stats, contact email
 data/categories.ts           ← ★ category tabs
 data/vendors.ts              ← ★ vendors (placeholders)
-lib/types.ts                 ← Category and Vendor types
+lib/types.ts                 ← Category, Vendor and LeadingFactor types
 lib/reports/schema.ts        ← report form issue types
 
 components/
   effects/  SmokeBackground
   layout/   Header, Footer
   home/     Hero, VendorsSection, ReportSection, SubmitSection, FinalCta, MissionPopup
-  vendors/  VendorCard, FeedbackModal
+  vendors/  VendorRow, LeadingVendorCard, VendorActions (View site / Feedback /
+            Report), FeedbackModal, parts (monogram, verified badge, reports)
   reviews/  TrustpilotRating (logo + star squares + score)
   report/   ReportForm, ReportSuccess, form fields
-  ui/       Button, Container, SectionHeader, Modal, Reveal, AnimatedNumber, icons
+  ui/       Button, Container, SectionHeader, Modal, Reveal, icons
 ```

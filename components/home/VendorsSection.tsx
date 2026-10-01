@@ -5,7 +5,8 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CATEGORY_ICONS } from "@/components/ui/icons";
-import { VendorCard } from "@/components/vendors/VendorCard";
+import { LeadingVendorCard } from "@/components/vendors/LeadingVendorCard";
+import { VendorRow } from "@/components/vendors/VendorRow";
 import { categories } from "@/data/categories";
 import { vendors } from "@/data/vendors";
 
@@ -19,12 +20,7 @@ export function VendorsSection() {
     <section id="vendors" className="relative py-28 sm:py-36">
       <Container>
         <SectionHeader
-          eyebrow="Verified vendors"
-          title={
-            <>
-              Choose a category. <em className="text-aurora italic">Find your vendor.</em>
-            </>
-          }
+          title="Choose a category."
           description="Every vendor below is listed free of charge, with their Trustpilot rating and the number of bad-feedback reports we've received about them in the past six months."
         />
 
@@ -82,13 +78,17 @@ export function VendorsSection() {
         {/* Vendors in the selected category */}
         <div id="vendor-panel" role="tabpanel" aria-labelledby={`tab-${active}`} className="mt-10">
           {activeCategory && <p className="text-mist-400">{activeCategory.description}</p>}
-          <ul key={active} className="mt-6 grid gap-5 lg:grid-cols-2">
+          <ol key={active} className="mt-6 space-y-4">
             {shown.map((vendor, i) => (
               <li key={vendor.slug} className="animate-pop-in" style={{ animationDelay: `${i * 90}ms` }}>
-                <VendorCard vendor={vendor} position={i + 1} />
+                {vendor.leading ? (
+                  <LeadingVendorCard vendor={vendor} />
+                ) : (
+                  <VendorRow vendor={vendor} rank={i + 1} />
+                )}
               </li>
             ))}
-          </ul>
+          </ol>
           {shown.length === 0 && <p className="mt-6 text-mist-400">No vendors listed in this category yet.</p>}
         </div>
       </Container>

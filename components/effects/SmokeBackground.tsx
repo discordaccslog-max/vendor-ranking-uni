@@ -3,14 +3,15 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Full-screen animated smoke behind the whole site (WebGL shader).
- * The smoke swirls and glows along a trail that follows the mouse / finger.
+ * Full-screen colourful smoke flowing behind the whole site (WebGL shader).
+ * Purely decorative — it doesn't react to the mouse.
  * Renders at reduced resolution for performance; shows one still frame if the
  * visitor prefers reduced motion; falls back to the CSS background if WebGL
  * isn't available.
+ *
+ * Tweak the look in FRAG: SPEED (flow speed), the colours in palette(), and
+ * BRIGHTNESS (overall strength — keep it low enough for text to stay readable).
  */
-
-const TRAIL = 14;
 
 const VERT = `
 attribute vec2 a_pos;
@@ -21,7 +22,9 @@ const FRAG = `
 precision mediump float;
 uniform vec2 u_res;
 uniform float u_time;
-uniform vec3 u_trail[${TRAIL}]; // xy = position in pixels, z = strength
+
+#define SPEED 0.06
+#define BRIGHTNESS 0.62
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p) {
@@ -37,42 +40,40 @@ float fbm(vec2 p) {
   return v;
 }
 
+// Colours the smoke cycles through: violet → pink → cyan → blue → (back to violet).
+vec3 palette(float t) {
+  vec3 violet = vec3(0.52, 0.24, 1.00);
+  vec3 pink   = vec3(0.96, 0.28, 0.74);
+  vec3 cyan   = vec3(0.16, 0.80, 0.98);
+  vec3 blue   = vec3(0.26, 0.34, 1.00);
+  float s = fract(t) * 4.0;
+  if (s < 1.0) return mix(violet, pink, smoothstep(0.0, 1.0, s));
+  if (s < 2.0) return mix(pink, cyan, smoothstep(1.0, 2.0, s));
+  if (s < 3.0) return mix(cyan, blue, smoothstep(2.0, 3.0, s));
+  return mix(blue, violet, smoothstep(3.0, 4.0, s));
+}
+
 void main() {
   vec2 uv = gl_FragCoord.xy / u_res.y;
-  float t = u_time * 0.045;
+  float t = u_time * SPEED;
 
-  // Cursor trail: swirl + push the smoke, and add a soft glow.
-  vec2 disp = vec2(0.0);
-  float glow = 0.0;
-  for (int i = 0; i < ${TRAIL}; i++) {
-    vec2 m = u_trail[i].xy / u_res.y;
-    float s = u_trail[i].z;
-    vec2 d = uv - m;
-    float f = exp(-dot(d, d) * 22.0) * s;
-    disp += vec2(-d.y, d.x) * f * 2.2 + d * f * 0.8;
-    glow += f;
-  }
-
-  vec2 p = uv * 1.5 + disp;
+  // Domain-warped noise, drifting slowly up and to the right.
+  vec2 p = uv * 1.4 + vec2(t * 0.6, t * 0.25);
   vec2 q = vec2(fbm(p + vec2(0.0, t)), fbm(p + vec2(5.2, 1.3) - t));
-  vec2 r = vec2(fbm(p + 3.5 * q + vec2(1.7, 9.2) + 0.15 * t), fbm(p + 3.5 * q + vec2(8.3, 2.8) - 0.12 * t));
-  float f = fbm(p + 3.5 * r);
+  vec2 r = vec2(fbm(p + 3.8 * q + vec2(1.7, 9.2) + 0.2 * t), fbm(p + 3.8 * q + vec2(8.3, 2.8) - 0.15 * t));
+  float f = fbm(p + 3.8 * r);
 
-  vec3 base   = vec3(0.020, 0.016, 0.045);
-  vec3 violet = vec3(0.42, 0.20, 0.85);
-  vec3 pink   = vec3(0.85, 0.30, 0.80);
-  vec3 cyan   = vec3(0.15, 0.70, 0.85);
+  // Colour drifts through the palette across space and time.
+  vec3 smoke = palette(length(q) * 0.9 + r.x * 0.5 + t * 0.35);
+  float density = smoothstep(0.25, 0.95, f);       // wispy shape of the smoke
+  vec3 base = vec3(0.020, 0.016, 0.045);
+  vec3 col = mix(base, smoke, density * 0.85);
+  col += smoke * pow(density, 3.0) * 0.35;          // brighter cores
 
-  vec3 col = mix(base, violet, clamp(f * f * 1.6, 0.0, 1.0));
-  col = mix(col, pink, clamp(length(q) - 0.55, 0.0, 1.0) * 0.55);
-  col = mix(col, cyan, clamp(r.y * r.y - 0.25, 0.0, 1.0) * 0.5);
-  col *= 0.25 + 0.75 * f;                    // smoky density
-  col += min(glow, 1.0) * vec3(0.55, 0.38, 0.95) * 0.22; // cursor glow
-
-  // Darken toward the edges and overall, so text stays readable.
+  // Darken toward the edges so text stays readable.
   vec2 c = gl_FragCoord.xy / u_res - 0.5;
-  col *= 1.0 - dot(c, c) * 0.7;
-  gl_FragColor = vec4(col * 0.6, 1.0);
+  col *= 1.0 - dot(c, c) * 0.8;
+  gl_FragColor = vec4(col * BRIGHTNESS, 1.0);
 }
 `;
 
@@ -110,7 +111,6 @@ export function SmokeBackground() {
 
     const uRes = gl.getUniformLocation(prog, "u_res");
     const uTime = gl.getUniformLocation(prog, "u_time");
-    const uTrail = gl.getUniformLocation(prog, "u_trail");
 
     // Render at reduced resolution — smoke is soft, so it still looks smooth.
     const SCALE = 0.5;
@@ -122,41 +122,13 @@ export function SmokeBackground() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Trail: each point eases toward the one ahead of it (a "snake" behind the cursor).
-    const mouse = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.4 };
-    const trail = Array.from({ length: TRAIL }, () => ({ x: mouse.x, y: mouse.y }));
-    let energy = 0;
-    const onMove = (x: number, y: number) => {
-      energy = Math.min(1, energy + Math.hypot(x - mouse.x, y - mouse.y) / 120);
-      mouse.x = x;
-      mouse.y = y;
-    };
-    const onMouse = (e: MouseEvent) => onMove(e.clientX, e.clientY);
-    const onTouch = (e: TouchEvent) => e.touches[0] && onMove(e.touches[0].clientX, e.touches[0].clientY);
-    window.addEventListener("mousemove", onMouse, { passive: true });
-    window.addEventListener("touchmove", onTouch, { passive: true });
-
-    const data = new Float32Array(TRAIL * 3);
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const start = performance.now();
     let frame = 0;
 
     const draw = (now: number) => {
-      trail[0].x += (mouse.x - trail[0].x) * 0.35;
-      trail[0].y += (mouse.y - trail[0].y) * 0.35;
-      for (let i = 1; i < TRAIL; i++) {
-        trail[i].x += (trail[i - 1].x - trail[i].x) * 0.3;
-        trail[i].y += (trail[i - 1].y - trail[i].y) * 0.3;
-      }
-      energy *= 0.965;
-      for (let i = 0; i < TRAIL; i++) {
-        data[i * 3] = trail[i].x * SCALE;
-        data[i * 3 + 1] = (window.innerHeight - trail[i].y) * SCALE; // GL y is bottom-up
-        data[i * 3 + 2] = (0.18 + energy) * (1 - i / TRAIL);
-      }
       gl.uniform2f(uRes, canvas.width, canvas.height);
-      gl.uniform1f(uTime, (now - start) / 1000 + 40);
-      gl.uniform3fv(uTrail, data);
+      gl.uniform1f(uTime, (now - start) / 1000 + 30);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!reduceMotion) frame = requestAnimationFrame(draw);
     };
@@ -166,8 +138,6 @@ export function SmokeBackground() {
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", onMouse);
-      window.removeEventListener("touchmove", onTouch);
     };
   }, []);
 
